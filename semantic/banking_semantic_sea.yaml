@@ -1,0 +1,278 @@
+name: SEA Banking Analytics
+description: Semantic model for Malaysia and Singapore retail banking
+
+tables:
+  - name: CUSTOMERS
+    description: Customer data across Malaysia and Singapore
+    base_table:
+      database: RETAIL_BANKING_DEMO
+      schema: GOLD
+      table: CUSTOMERS
+    primary_key:
+      columns:
+        - CUSTOMER_ID
+    dimensions:
+      - name: CUSTOMER_ID
+        description: Unique customer identifier
+        expr: CUSTOMER_ID
+        data_type: TEXT
+      - name: FIRST_NAME
+        description: Customer first name
+        expr: FIRST_NAME
+        data_type: TEXT
+      - name: LAST_NAME
+        description: Customer last name
+        expr: LAST_NAME
+        data_type: TEXT
+      - name: EMAIL
+        description: Customer email address
+        expr: EMAIL
+        data_type: TEXT
+      - name: PHONE
+        description: Customer phone number
+        expr: PHONE
+        data_type: TEXT
+      - name: CITY
+        description: City where customer resides
+        expr: CITY
+        data_type: TEXT
+      - name: STATE
+        description: Malaysian state or Singapore
+        expr: STATE
+        data_type: TEXT
+      - name: COUNTRY
+        description: Country Malaysia or Singapore
+        expr: COUNTRY
+        data_type: TEXT
+      - name: CUSTOMER_SEGMENT
+        description: Customer segment RETAIL PREMIUM BUSINESS
+        expr: CUSTOMER_SEGMENT
+        data_type: TEXT
+      - name: EMPLOYMENT_STATUS
+        description: Employment status
+        expr: EMPLOYMENT_STATUS
+        data_type: TEXT
+      - name: CUSTOMER_SINCE
+        description: Customer since date
+        expr: CUSTOMER_SINCE
+        data_type: DATE
+      - name: CREDIT_SCORE
+        description: Customer credit score
+        expr: CREDIT_SCORE
+        data_type: NUMBER
+      - name: ANNUAL_INCOME_MYR
+        description: Annual income in MYR
+        expr: ANNUAL_INCOME_MYR
+        data_type: NUMBER
+
+  - name: ACCOUNTS
+    description: Bank accounts in MYR currency
+    base_table:
+      database: RETAIL_BANKING_DEMO
+      schema: GOLD
+      table: ACCOUNTS
+    primary_key:
+      columns:
+        - ACCOUNT_ID
+    dimensions:
+      - name: ACCOUNT_ID
+        description: Account ID
+        expr: ACCOUNT_ID
+        data_type: TEXT
+      - name: CUSTOMER_ID
+        description: Customer ID
+        expr: CUSTOMER_ID
+        data_type: TEXT
+      - name: ACCOUNT_TYPE
+        description: Account type CHECKING SAVINGS CREDIT_CARD LOAN
+        expr: ACCOUNT_TYPE
+        data_type: TEXT
+      - name: ACCOUNT_STATUS
+        description: Account status ACTIVE CLOSED SUSPENDED
+        expr: ACCOUNT_STATUS
+        data_type: TEXT
+      - name: BRANCH_ID
+        description: Branch ID
+        expr: BRANCH_ID
+        data_type: TEXT
+      - name: OPEN_DATE
+        description: Account open date
+        expr: OPEN_DATE
+        data_type: DATE
+    measures:
+      - name: CURRENT_BALANCE_MYR
+        description: Current balance in MYR
+        expr: CURRENT_BALANCE_MYR
+        data_type: NUMBER
+      - name: AVAILABLE_BALANCE_MYR
+        description: Available balance in MYR
+        expr: AVAILABLE_BALANCE_MYR
+        data_type: NUMBER
+
+  - name: TRANSACTIONS
+    description: Transactions in MYR with SEA merchants
+    base_table:
+      database: RETAIL_BANKING_DEMO
+      schema: GOLD
+      table: TRANSACTIONS
+    primary_key:
+      columns:
+        - TRANSACTION_ID
+    dimensions:
+      - name: TRANSACTION_ID
+        description: Transaction ID
+        expr: TRANSACTION_ID
+        data_type: TEXT
+      - name: CUSTOMER_ID
+        description: Customer ID
+        expr: CUSTOMER_ID
+        data_type: TEXT
+      - name: ACCOUNT_ID
+        description: Account ID
+        expr: ACCOUNT_ID
+        data_type: TEXT
+      - name: TRANSACTION_DATE
+        description: Transaction date
+        expr: TRANSACTION_DATE
+        data_type: TIMESTAMP
+      - name: TRANSACTION_TYPE
+        description: Transaction type
+        expr: TRANSACTION_TYPE
+        data_type: TEXT
+      - name: CHANNEL
+        description: Transaction channel
+        expr: CHANNEL
+        data_type: TEXT
+      - name: CATEGORY
+        description: Transaction category
+        expr: CATEGORY
+        data_type: TEXT
+      - name: MERCHANT_NAME
+        description: Merchant name
+        expr: MERCHANT_NAME
+        data_type: TEXT
+      - name: STATUS
+        description: Transaction status
+        expr: STATUS
+        data_type: TEXT
+    measures:
+      - name: AMOUNT_MYR
+        description: Transaction amount in MYR
+        expr: AMOUNT_MYR
+        data_type: NUMBER
+
+  - name: LOANS
+    description: Loans in MYR currency
+    base_table:
+      database: RETAIL_BANKING_DEMO
+      schema: GOLD
+      table: LOANS
+    primary_key:
+      columns:
+        - LOAN_ID
+    dimensions:
+      - name: LOAN_ID
+        description: Loan ID
+        expr: LOAN_ID
+        data_type: TEXT
+      - name: CUSTOMER_ID
+        description: Customer ID
+        expr: CUSTOMER_ID
+        data_type: TEXT
+      - name: LOAN_TYPE
+        description: Loan type PERSONAL MORTGAGE AUTO EDUCATION BUSINESS
+        expr: LOAN_TYPE
+        data_type: TEXT
+      - name: LOAN_STATUS
+        description: Loan status ACTIVE PAID_OFF DEFAULT DELINQUENT
+        expr: LOAN_STATUS
+        data_type: TEXT
+      - name: ORIGINATION_DATE
+        description: Loan origination date
+        expr: ORIGINATION_DATE
+        data_type: DATE
+    measures:
+      - name: LOAN_AMOUNT_MYR
+        description: Loan amount in MYR
+        expr: LOAN_AMOUNT_MYR
+        data_type: NUMBER
+      - name: OUTSTANDING_BALANCE_MYR
+        description: Outstanding balance in MYR
+        expr: OUTSTANDING_BALANCE_MYR
+        data_type: NUMBER
+      - name: INTEREST_RATE
+        description: Interest rate percentage
+        expr: INTEREST_RATE
+        data_type: NUMBER
+
+  - name: DATA_QUALITY_REJECTS
+    description: Data quality rejects
+    base_table:
+      database: RETAIL_BANKING_DEMO
+      schema: SILVER
+      table: DATA_QUALITY_REJECTS
+    primary_key:
+      columns:
+        - REJECT_ID
+    dimensions:
+      - name: REJECT_ID
+        description: Reject ID
+        expr: REJECT_ID
+        data_type: NUMBER
+      - name: RULE_NAME
+        description: Rule name
+        expr: RULE_NAME
+        data_type: TEXT
+      - name: REJECT_REASON
+        description: Reject reason
+        expr: REJECT_REASON
+        data_type: TEXT
+      - name: SEVERITY
+        description: Severity HIGH MEDIUM LOW
+        expr: SEVERITY
+        data_type: TEXT
+      - name: SOURCE_TABLE
+        description: Source table
+        expr: SOURCE_TABLE
+        data_type: TEXT
+      - name: COLUMN_NAME
+        description: Column name
+        expr: COLUMN_NAME
+        data_type: TEXT
+      - name: REJECT_DATE
+        description: Date of reject
+        expr: REJECT_DATE
+        data_type: TIMESTAMP
+
+relationships:
+  - name: ACCOUNTS_TO_CUSTOMERS
+    left_table: ACCOUNTS
+    right_table: CUSTOMERS
+    join_type: left_outer
+    relationship_columns:
+      - left_column: CUSTOMER_ID
+        right_column: CUSTOMER_ID
+    
+  - name: TRANSACTIONS_TO_CUSTOMERS
+    left_table: TRANSACTIONS
+    right_table: CUSTOMERS
+    join_type: left_outer
+    relationship_columns:
+      - left_column: CUSTOMER_ID
+        right_column: CUSTOMER_ID
+    
+  - name: LOANS_TO_CUSTOMERS
+    left_table: LOANS
+    right_table: CUSTOMERS
+    join_type: left_outer
+    relationship_columns:
+      - left_column: CUSTOMER_ID
+        right_column: CUSTOMER_ID
+    
+  - name: TRANSACTIONS_TO_ACCOUNTS
+    left_table: TRANSACTIONS
+    right_table: ACCOUNTS
+    join_type: left_outer
+    relationship_columns:
+      - left_column: ACCOUNT_ID
+        right_column: ACCOUNT_ID
