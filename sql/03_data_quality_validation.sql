@@ -1,8 +1,31 @@
 -- =====================================================================
 -- SEA RETAIL BANKING DEMO - DATA QUALITY VALIDATION
--- Purpose: Create SILVER layer with data quality checks
--- Run as: ACCOUNTADMIN
--- =====================================================================
+-- SEA Retail Banking Demo – Snowflake Cortex + Streamlit
+--
+-- Created By  : Rajib Lochan Sur
+-- Organization: Deloitte Southeast Asia
+-- Purpose     : Build SILVER staging + data quality checks, populate
+--               DATA_QUALITY_REJECTS, curate GOLD tables and create
+--               ANALYTICS views. Intended to be run after Bronze data
+--               has been loaded (02_create_banking_data.sql).
+--
+-- Description : 
+--   • Creates staging tables in SILVER and loads Bronze data
+--   • Creates DATA_QUALITY_REJECTS table and applies DQ rules
+--     (invalid/missing emails, duplicates, FK violations, invalid dates,
+--      suspicious amounts, etc.)
+--   • Produces curated GOLD tables (CUSTOMERS, ACCOUNTS, TRANSACTIONS, LOANS)
+--   • Creates business views in ANALYTICS schema for reporting
+--
+-- Notes       :
+--   ⚠ Run as ACCOUNTADMIN (or role with required privileges)
+--   ⚠ Ensure RETAIL_BANKING_DEMO and BRONZE data exist
+--   ⚠ This script does not delete previous objects — it's safe to re-run
+--     (CREATE OR REPLACE used where appropriate).
+--
+-- Version     : 1.0
+-- Last Updated: 9 Dec 2025
+-- ====================================================================
 
 USE ROLE ACCOUNTADMIN;
 USE DATABASE RETAIL_BANKING_DEMO;

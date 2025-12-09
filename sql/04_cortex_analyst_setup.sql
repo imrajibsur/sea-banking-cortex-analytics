@@ -1,7 +1,28 @@
 -- =====================================================================
 -- SEA RETAIL BANKING DEMO - CORTEX ANALYST SETUP
--- Purpose: Create semantic model for Malaysia/Singapore banking
--- Run as: ACCOUNTADMIN
+-- SEA Retail Banking Demo – Snowflake Cortex + Streamlit
+--
+-- Created By  : Rajib Lochan Sur
+-- Organization: Deloitte Southeast Asia
+-- Purpose     : Prepare and verify objects for Cortex Analyst semantic model,
+--               upload YAML to semantic stage (manual), and provide UI steps
+--               to create the semantic model in Snowsight.
+--
+-- Description :
+--   • Verifies primary keys on GOLD/SILVER tables
+--   • Lists files in @SEMANTIC_STAGE after upload
+--   • Provides step-by-step manual instructions for creating the semantic model
+--     in Snowsight (AI & ML → Cortex Analyst)
+--   • Suggests sample questions to test in the Playground
+--
+-- Notes       :
+--   ⚠ Run as ACCOUNTADMIN (or role with required privileges)
+--   ⚠ Ensure RETAIL_BANKING_DEMO, GOLD tables and SEMANTIC_STAGE exist
+--   ⚠ Upload banking_semantic_sea.yaml to @RETAIL_BANKING_DEMO.SILVER.SEMANTIC_STAGE
+--   ⚠ The semantic model creation step is manual via Snowsight UI
+--
+-- Version     : 1.0
+-- Last Updated: 09 Dec 2025
 -- =====================================================================
 
 USE ROLE ACCOUNTADMIN;

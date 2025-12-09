@@ -1,7 +1,24 @@
 -- =====================================================================
 -- SEA RETAIL BANKING DEMO - STREAMLIT APP SETUP
--- Purpose: Grant role to user and create Streamlit app
--- Run as: ACCOUNTADMIN
+-- SEA Retail Banking Demo – Snowflake Cortex + Streamlit
+--
+-- Created By  : Rajib Lochan Sur
+-- Organization: Deloitte Southeast Asia
+-- Purpose     : Grant required roles/permissions and deploy Streamlit app
+--               for the SEA Retail Banking Analytics demo.
+--
+-- Description :
+--   • Assign BANKING_APP_ROLE to demo user
+--   • (Optional) Test EMAIL_INT notification integration
+--   • Create or replace the Streamlit app using the uploaded Python file
+--
+-- Notes       :
+--   ⚠ Run as ACCOUNTADMIN
+--   ⚠ Ensure APP_STAGE contains streamlit_app.py
+--   ⚠ Replace CAPSTONE1 with your actual Snowflake username
+--
+-- Version     : 1.0
+-- Last Updated: 12 Sept 2025
 -- =====================================================================
 
 USE ROLE ACCOUNTADMIN;
@@ -12,13 +29,15 @@ USE SCHEMA SILVER;
 -- 1. ASSIGN ROLE TO DEMO USER
 -- =====================================================================
 
--- TODO: Replace with your actual Snowflake username
+-- Replace with your actual Snowflake username
 -- Example:
 --   GRANT ROLE BANKING_APP_ROLE TO USER CAPSTONE;
-select CURRENT_USER()
+
+SELECT CURRENT_USER();
+
 GRANT ROLE BANKING_APP_ROLE TO USER CAPSTONE1;
 
--- Optional: verify
+-- Optional verification
 SHOW ROLES LIKE 'BANKING_APP_ROLE';
 SHOW GRANTS TO USER CAPSTONE1;
 
@@ -26,8 +45,9 @@ SHOW GRANTS TO USER CAPSTONE1;
 -- 2. (OPTIONAL) TEST EMAIL INTEGRATION
 -- =====================================================================
 
--- Uncomment and set a valid email to test email integration manually
 /*
+-- Uncomment to verify email configuration:
+
 SELECT SYSTEM$START_USER_EMAIL_VERIFICATION('CAPSTONE1');
 
 CALL SYSTEM$SEND_EMAIL(
@@ -43,16 +63,19 @@ CALL SYSTEM$SEND_EMAIL(
 -- 3. CREATE / REPLACE STREAMLIT APP
 -- =====================================================================
 
--- Upload streamlit_app.py to @APP_STAGE before running this:
---   Snowsight → Data → RETAIL_BANKING_DEMO.SILVER → Stages → APP_STAGE → Upload
+-- Upload your app file first:
+-- Snowsight → Data → RETAIL_BANKING_DEMO.SILVER → Stages → APP_STAGE → Upload
+--
+-- Ensure the file name is:
+--      streamlit_app.py
 
 CREATE OR REPLACE STREAMLIT SEA_BANKING_ANALYTICS_APP
-  ROOT_LOCATION = '@RETAIL_BANKING_DEMO.SILVER.APP_STAGE'
-  MAIN_FILE     = 'streamlit_app.py'
+  ROOT_LOCATION  = '@RETAIL_BANKING_DEMO.SILVER.APP_STAGE'
+  MAIN_FILE      = 'streamlit_app.py'
   QUERY_WAREHOUSE = BANKING_WH
   COMMENT = 'SEA Retail Banking Analytics - Cortex + Streamlit demo';
 
--- Verify
+-- Verify deployment
 SHOW STREAMLIT APPS IN SCHEMA RETAIL_BANKING_DEMO.SILVER;
 
 SELECT '✓ STREAMLIT APP CREATED: SEA_BANKING_ANALYTICS_APP' AS STATUS;

@@ -1,7 +1,29 @@
 -- =====================================================================
 -- SEA RETAIL BANKING DEMO - SAMPLE DATA CREATION
--- Purpose: Create realistic banking data for Malaysia/Singapore region
--- Run as: ACCOUNTADMIN
+-- SEA Retail Banking Demo – Snowflake Cortex + Streamlit
+--
+-- Created By  : Rajib Lochan Sur
+-- Organization: Deloitte Southeast Asia
+-- Purpose     : Create realistic sample banking data for Malaysia &
+--               Singapore (Bronze layer). This includes Customers,
+--               Accounts, Transactions, and Loans with deliberate
+--               data-quality scenarios for validation/demonstration.
+--
+-- Description : Populates BRONZE schema tables:
+--                 • SRC_CUSTOMERS
+--                 • SRC_ACCOUNTS
+--                 • SRC_TRANSACTIONS
+--                 • SRC_LOANS
+--               The dataset includes duplicates, invalid formats,
+--               missing values, future-dated and suspicious records
+--               to illustrate data quality rules and handling.
+--
+-- Notes       :
+--   ⚠ Run after foundation setup (01_setup_foundation.sql)
+--   ⚠ Run as ACCOUNTADMIN or a role with sufficient privileges
+--
+-- Version     : 1.0
+-- Last Updated: 09 Dec 2025
 -- =====================================================================
 
 USE ROLE ACCOUNTADMIN;

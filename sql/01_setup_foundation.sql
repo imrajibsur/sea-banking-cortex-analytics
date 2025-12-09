@@ -1,7 +1,25 @@
 -- =====================================================================
--- SEA RETAIL BANKING DEMO - FOUNDATION SETUP
--- Purpose: Create database structure for Malaysia/Singapore banks
--- Run as: ACCOUNTADMIN
+-- SEA RETAIL BANKING DEMO – FOUNDATION SETUP
+--
+-- Created By  : Rajib Lochan Sur
+-- Organization: Deloitte Southeast Asia
+-- Purpose     : Create full database + schema foundation for the 
+--               "SEA Banking Analytics – Capstone Project"
+-- Description : This script provisions all base components required
+--               for the end-to-end demo, including:
+--                 • RETAIL_BANKING_DEMO database & schemas
+--                 • BANKING_WH warehouse
+--                 • BANKING_APP_ROLE role & privileges
+--                 • Stages (APP_STAGE, SEMANTIC_STAGE, DOCS_STAGE)
+--                 • Email integration for Streamlit notifications
+--                 • Cortex Analyst enablement
+--
+-- Notes       :
+--   ✓ Run as ACCOUNTADMIN  
+--   ✓ Mandatory step before loading data or running Streamlit
+--
+-- Version     : 1.0
+-- Last Updated: 09 Dec 2025
 -- =====================================================================
 
 USE ROLE ACCOUNTADMIN;
@@ -71,64 +89,4 @@ GRANT SELECT ON FUTURE TABLES IN SCHEMA RETAIL_BANKING_DEMO.ANALYTICS TO ROLE BA
 GRANT USAGE ON WAREHOUSE BANKING_WH TO ROLE BANKING_APP_ROLE;
 
 -- Cortex privileges
-GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER         TO ROLE BANKING_APP_ROLE;
-GRANT DATABASE ROLE SNOWFLAKE.CORTEX_ANALYST_USER TO ROLE BANKING_APP_ROLE;
-
--- Streamlit creation privilege
-GRANT CREATE STREAMLIT ON SCHEMA RETAIL_BANKING_DEMO.SILVER TO ROLE ACCOUNTADMIN;
-GRANT CREATE STREAMLIT ON SCHEMA RETAIL_BANKING_DEMO.SILVER TO ROLE BANKING_APP_ROLE;
-
--- =====================================================================
--- 4. CREATE STAGES FOR FILES
--- =====================================================================
-
-USE DATABASE RETAIL_BANKING_DEMO;
-USE SCHEMA SILVER;
-
-CREATE STAGE IF NOT EXISTS SEMANTIC_STAGE
-    COMMENT = 'Stage for Cortex Analyst YAML files';
-
-CREATE STAGE IF NOT EXISTS APP_STAGE
-    COMMENT = 'Stage for Streamlit app code and assets';
-
-CREATE STAGE IF NOT EXISTS DOCS_STAGE
-    DIRECTORY = (ENABLE = TRUE)
-    COMMENT = 'Stage for banking policy documents';
-
--- Stage access
-GRANT READ ON STAGE RETAIL_BANKING_DEMO.SILVER.SEMANTIC_STAGE TO ROLE BANKING_APP_ROLE;
-GRANT READ ON STAGE RETAIL_BANKING_DEMO.SILVER.APP_STAGE      TO ROLE BANKING_APP_ROLE;
-GRANT READ, WRITE ON STAGE RETAIL_BANKING_DEMO.SILVER.DOCS_STAGE TO ROLE BANKING_APP_ROLE;
-
--- =====================================================================
--- 5. ENABLE CORTEX FEATURES
--- =====================================================================
-
-ALTER ACCOUNT SET ENABLE_CORTEX_ANALYST = TRUE;
-ALTER ACCOUNT SET CORTEX_ENABLED_CROSS_REGION = 'ANY_REGION';
-
--- =====================================================================
--- 6. CREATE EMAIL NOTIFICATION INTEGRATION (USED BY APP)
--- =====================================================================
-
-CREATE NOTIFICATION INTEGRATION IF NOT EXISTS EMAIL_INT
-    TYPE    = EMAIL
-    ENABLED = TRUE
-    COMMENT = 'Email integration for sending banking reports';
-
-GRANT USAGE ON INTEGRATION EMAIL_INT TO ROLE BANKING_APP_ROLE;
-
--- =====================================================================
--- 7. VERIFICATION
--- =====================================================================
-
-SHOW DATABASES LIKE 'RETAIL_BANKING_DEMO';
-SHOW SCHEMAS IN DATABASE RETAIL_BANKING_DEMO;
-SHOW WAREHOUSES LIKE 'BANKING_WH';
-SHOW ROLES LIKE 'BANKING_APP_ROLE';
-SHOW STAGES IN SCHEMA RETAIL_BANKING_DEMO.SILVER;
-
-SHOW PARAMETERS LIKE 'ENABLE_CORTEX%' IN ACCOUNT;
-SELECT CURRENT_REGION() AS MY_REGION;
-
-SELECT '✓ FOUNDATION SETUP COMPLETE!' AS STATUS;
+GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER         TO ROLE BANKING_APP_ROL_

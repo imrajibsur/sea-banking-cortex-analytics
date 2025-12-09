@@ -1,8 +1,22 @@
 -- =====================================================================
 -- CLEANUP SCRIPT - DROP ALL DEMO OBJECTS
--- SEA Retail Banking Demo - Snowflake Cortex + Streamlit
--- Run as: ACCOUNTADMIN
--- WARNING: This will delete all data and objects!
+-- SEA Retail Banking Demo – Snowflake Cortex + Streamlit
+--
+-- Created By  : Rajib Lochan Sur
+-- Organization: Deloitte Southeast Asia
+-- Purpose     : Cleanup all objects created as part of the 
+--               "SEA Banking Analytics – Capstone Project"
+-- Description : This script removes the full demo environment 
+--               including database, schemas, warehouse, roles, stages, 
+--               Streamlit app, semantic views, curated tables, and DQ
+--               objects. Intended for full reset or fresh rerun.
+--
+-- Notes       : 
+--   ⚠ Run only as ACCOUNTADMIN.
+--   ⚠ This will delete ALL DATA and ALL OBJECTS created for the demo.
+--
+-- Version     : 1.0
+-- Last Updated: 09 Dec 2025
 -- =====================================================================
 
 USE ROLE ACCOUNTADMIN;
